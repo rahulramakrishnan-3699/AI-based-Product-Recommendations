@@ -24,6 +24,7 @@ knn.fit(sparse_matrix)
 
 
 user_index = np.random.choice(user_item_matrix.shape[0])
-distances, indices = knn.kneighbors([sparse_matrix[user_index].toarray()], n_neighbors=6)
+user_vector = sparse_matrix[user_index].toarray().reshape(1, -1)  # Fix input shape
+distances, indices = knn.kneighbors(user_vector, n_neighbors=6)
 recommended_products = user_item_matrix.iloc[indices.flatten()[1:]].mean(axis=0).sort_values(ascending=False).index[:5]
 print("Recommended Products:", recommended_products.tolist())
